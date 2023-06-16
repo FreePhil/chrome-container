@@ -1,5 +1,6 @@
 ﻿using Docker.DotNet.Models;
 using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using DotNet.Testcontainers.Networks;
 
@@ -50,6 +51,7 @@ public class SeleniumFixture: IAsyncLifetime
             .WithImage("selenium/video:latest")
             .WithName("selenium_video")
             .WithEnvironment(recorderEnv)
+            .WithBindMount("C:\\Users\\Phil", "/videos")
             .WithNetwork(Network)
             .Build();
             

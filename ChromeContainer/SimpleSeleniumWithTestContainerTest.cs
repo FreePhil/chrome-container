@@ -40,7 +40,7 @@ public class SimpleSeleniumWithTestContainerTest: IClassFixture<SeleniumFixture>
         By nextPageElementSelector = By.Id("add-to-cart-sauce-labs-backpack");
 
         waiter.Until(ExpectedConditions.ElementIsVisible(nextPageElementSelector));
-        // remote.Quit();
+        remote.Quit();
     }
     
     [Theory]
@@ -66,6 +66,6 @@ public class SimpleSeleniumWithTestContainerTest: IClassFixture<SeleniumFixture>
 
         waiter.Until(ExpectedConditions.ElementIsVisible(errorMessageElement));
 
-        // remote.Quit();
+        remote.Quit();
     }
 }
