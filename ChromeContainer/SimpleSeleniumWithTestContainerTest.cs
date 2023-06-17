@@ -1,3 +1,4 @@
+using FluentAssertions;
 using SeleniumExtras.WaitHelpers;
 
 namespace ChromeContainer;
@@ -37,15 +38,29 @@ public class SimpleSeleniumWithTestContainerTest: IClassFixture<SeleniumFixture>
         buttonLogin.Click();
         
         var waiter = new WebDriverWait(remote, TimeSpan.FromSeconds(1));
-        By nextPageElementSelector = By.Id("add-to-cart-sauce-labs-backpack");
+        By nextPageElementSelector = By.CssSelector("div.inventory_item");
 
         waiter.Until(ExpectedConditions.ElementIsVisible(nextPageElementSelector));
+        
+        Screenshot screenshot = ((ITakesScreenshot)remote).GetScreenshot();
+        string screenshotPath = $"c:\\Users\\Phil\\Desktop\\TestLoginSuccess-{username}.png";
+        screenshot.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);
+
+
+        var items = remote.FindElementsByCssSelector("div.inventory_item");
+        var firstImage = items[0].FindElement(By.CssSelector("img"));
+        string filename = firstImage.GetAttribute("src");
+        
         remote.Quit();
+        
+        items.Should().HaveCount(6);
+        filename.Should().Contain("sauce-backpack");
     }
     
     [Theory]
     [InlineData("standard_user", "secret_sauce1")]
     [InlineData("abc", "secret_sauce")]
+    [InlineData("a", "b")]
     public void TestLoginFailure(string username, string password)
     {
         var remote = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"),  new ChromeOptions());
@@ -65,6 +80,10 @@ public class SimpleSeleniumWithTestContainerTest: IClassFixture<SeleniumFixture>
         By errorMessageElement = By.CssSelector("div.error-message-container.error");
 
         waiter.Until(ExpectedConditions.ElementIsVisible(errorMessageElement));
+        
+        Screenshot screenshot = ((ITakesScreenshot)remote).GetScreenshot();
+        string screenshotPath = $"c:\\Users\\Phil\\Desktop\\TestLoginFailure-{username}.png";
+        screenshot.SaveAsFile(screenshotPath, ScreenshotImageFormat.Png);
 
         remote.Quit();
     }
