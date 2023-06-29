@@ -63,7 +63,7 @@ public class SimpleSeleniumWithTestContainerTest: IClassFixture<SeleniumFixture>
     [InlineData("a", "b")]
     public void TestLoginFailure(string username, string password)
     {
-        var remote = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"),  new ChromeOptions());
+        var remote = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"), new ChromeOptions());
         remote.Navigate().GoToUrl("https://www.saucedemo.com/");
         remote.Manage().Window.Maximize();
         var inputUsername = remote.FindElementById("user-name");
