@@ -64,7 +64,6 @@ public class SeleniumFixture: IAsyncLifetime
             .WithBindMount("/Users/phil/desktop/videos", "/videos")
             .WithNetwork(network)
             .Build();
-            
 
         await network.CreateAsync();
         await hub.StartAsync();
