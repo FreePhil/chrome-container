@@ -1,7 +1,6 @@
-using SeleniumExtras.WaitHelpers;
-
 namespace ChromeContainer;
 
+using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
@@ -37,7 +36,7 @@ public class SimpleSeleniumWithTestContainerTest: IClassFixture<SeleniumFixture>
         buttonLogin.Click();
         
         var waiter = new WebDriverWait(remote, TimeSpan.FromSeconds(1));
-        By nextPageElementSelector = By.Id("add-to-cart-sauce-labs-backpack");
+        var nextPageElementSelector = By.Id("add-to-cart-sauce-labs-backpack");
 
         waiter.Until(ExpectedConditions.ElementIsVisible(nextPageElementSelector));
         remote.Quit();
@@ -51,14 +50,13 @@ public class SimpleSeleniumWithTestContainerTest: IClassFixture<SeleniumFixture>
         var remote = new RemoteWebDriver(new Uri("http://localhost:4444/wd/hub"),  new ChromeOptions());
         remote.Navigate().GoToUrl("https://www.saucedemo.com/");
         remote.Manage().Window.Maximize();
+        
         var inputUsername = remote.FindElementById("user-name");
         var inputPassword = remote.FindElementById("password");
-
         var buttonLogin = remote.FindElementById("login-button");
 
         inputUsername.SendKeys(username);
         inputPassword.SendKeys(password);
-        
         buttonLogin.Click();
         
         var waiter = new WebDriverWait(remote, TimeSpan.FromSeconds(1));
